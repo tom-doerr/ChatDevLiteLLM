@@ -132,10 +132,10 @@ class OpenAIModel(ModelBackend):
             model_name = self.model_type if isinstance(self.model_type, str) else self.model_type.value
             if self.model_type == ModelType.DEEPSEEK:
                 model_name = "deepseek/deepseek-chat"
-                if 'logit_bias' in self.model_config_dict:
-                    del self.model_config_dict['logit_bias']
-                if 'proxies' in kwargs:
-                    del kwargs['proxies']
+            if 'logit_bias' in self.model_config_dict and self.model_type != ModelType.DEEPSEEK:
+                del self.model_config_dict['logit_bias']
+            if 'proxies' in kwargs and self.model_type != ModelType.DEEPSEEK:
+                del kwargs['proxies']
             print(f"Using model string: {model_name} for litellm")
             print(f"kwargs: {kwargs}")
             response = litellm.completion(*args, **kwargs,
