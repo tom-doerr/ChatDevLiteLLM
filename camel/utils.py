@@ -129,6 +129,8 @@ def get_model_token_limit(model: ModelType) -> int:
         return 4096
     elif model == ModelType.GPT_4O:
         return 128000
+    elif model == ModelType.GPT_4O_MINI:
+        return 128000
     elif model == ModelType.DEEPSEEK:
         return 50000
     else:
