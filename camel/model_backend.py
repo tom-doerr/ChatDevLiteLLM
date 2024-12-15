@@ -140,7 +140,6 @@ class OpenAIModel(ModelBackend):
             print(f"kwargs: {kwargs}")
             response = litellm.completion(*args, **kwargs,
                                                     model="deepseek/deepseek-chat",
-                                                    http_client=None,
                                                     **self.model_config_dict)
 
             cost = prompt_cost(
