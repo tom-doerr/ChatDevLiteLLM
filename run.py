@@ -22,6 +22,8 @@ root = os.path.dirname(__file__)
 sys.path.append(root)
 
 from chatdev.chat_chain import ChatChain
+import litellm
+litellm.set_verbose = True
 
 try:
     from openai.types.chat.chat_completion_message_tool_call import ChatCompletionMessageToolCall
