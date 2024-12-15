@@ -129,6 +129,7 @@ class OpenAIModel(ModelBackend):
 
             # response = client.chat.completions.create(*args, **kwargs, model=self.model_type.value,
                                                       # **self.model_config_dict)
+            print(f"Using model string: {self.model_type} for litellm")
             response = litellm.completion(*args, **kwargs,
                                                     model=self.model_type,
                                                     **self.model_config_dict)
