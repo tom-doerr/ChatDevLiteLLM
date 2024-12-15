@@ -1,0 +1,7 @@
+{"event": "launched", "properties": {}, "user_id": "d865935f-d9fb-45ae-a104-917f654b3df2", "time": 1734236198}
+{"event": "repo", "properties": {"num_files": 504}, "user_id": "d865935f-d9fb-45ae-a104-917f654b3df2", "time": 1734236200}
+{"event": "cli session", "properties": {"main_model": "claude-3-5-sonnet-20241022", "weak_model": "deepseek/deepseek-coder", "editor_model": "claude-3-5-sonnet-20241022", "edit_format": "diff"}, "user_id": "d865935f-d9fb-45ae-a104-917f654b3df2", "time": 1734236200}
+{"event": "message_send_starting", "properties": {}, "user_id": "d865935f-d9fb-45ae-a104-917f654b3df2", "time": 1734236241}
+{"event": "message_send", "properties": {"main_model": "claude-3-5-sonnet-20241022", "weak_model": "deepseek/deepseek-coder", "editor_model": "claude-3-5-sonnet-20241022", "edit_format": "dspy-search-replace", "prompt_tokens": 4387, "completion_tokens": 142, "total_tokens": 4529, "cost": 0.015291, "total_cost": 0.015291}, "user_id": "d865935f-d9fb-45ae-a104-917f654b3df2", "time": 1734236247}
+{"event": "message_send_starting", "properties": {}, "user_id": "d865935f-d9fb-45ae-a104-917f654b3df2", "time": 1734236293}
+{"event": "message_send", "properties": {"main_model": "claude-3-5-sonnet-20241022", "weak_model": "deepseek/deepseek-coder", "editor_model": "claude-3-5-sonnet-20241022", "edit_format": "dspy-search-replace", "prompt_tokens": 4546, "completion_tokens": 123, "total_tokens": 4669, "cost": 0.015483, "total_cost": 0.030774000000000003}, "user_id": "d865935f-d9fb-45ae-a104-917f654b3df2", "time": 1734236297}
