@@ -130,6 +130,8 @@ class OpenAIModel(ModelBackend):
             # response = client.chat.completions.create(*args, **kwargs, model=self.model_type.value,
                                                       # **self.model_config_dict)
             model_name = self.model_type if isinstance(self.model_type, str) else self.model_type.value
+            if self.model_type == ModelType.DEEPSEEK:
+                model_name = "deepseek/deepseek"
             print(f"Using model string: {model_name} for litellm")
             response = litellm.completion(*args, **kwargs,
                                                     model=model_name,
