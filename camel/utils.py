@@ -129,7 +129,7 @@ def get_model_token_limit(model: ModelType) -> int:
     elif model == ModelType.GPT_4O:
         return 128000
     elif model == ModelType.DEEPSEEK:
-        return 8192
+        return 50000
     else:
         raise ValueError("Unknown model type")
 
