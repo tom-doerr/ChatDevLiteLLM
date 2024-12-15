@@ -134,6 +134,8 @@ class OpenAIModel(ModelBackend):
                 model_name = "deepseek/deepseek-chat"
                 if 'logit_bias' in self.model_config_dict:
                     del self.model_config_dict['logit_bias']
+                if 'proxies' in self.model_config_dict:
+                    del self.model_config_dict['proxies']
             print(f"Using model string: {model_name} for litellm")
             response = litellm.completion(*args, **kwargs,
                                                     model="deepseek/deepseek-chat",
