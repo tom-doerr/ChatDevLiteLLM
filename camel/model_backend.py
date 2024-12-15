@@ -123,7 +123,7 @@ class OpenAIModel(ModelBackend):
                 "deepseek": 50000,
             }
             model_name = self.model_type if isinstance(self.model_type, str) else self.model_type.value
-            num_max_token = num_max_token_map[model_name]
+            num_max_token = num_max_token_map.get(model_name, 50000)
             num_max_completion_tokens = num_max_token - num_prompt_tokens
             self.model_config_dict['max_tokens'] = num_max_completion_tokens
 
