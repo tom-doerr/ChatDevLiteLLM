@@ -129,7 +129,7 @@ class OpenAIModel(ModelBackend):
             # response = client.chat.completions.create(*args, **kwargs, model=self.model_type.value,
                                                       # **self.model_config_dict)
             response = litellm.completion(*args, **kwargs,
-                                                    model=self.model_type.value,
+                                                    model=self.model_type,
                                                     **self.model_config_dict)
 
             cost = prompt_cost(
