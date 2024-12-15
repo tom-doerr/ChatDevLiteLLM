@@ -16,8 +16,9 @@ from tenacity import (
 )
 import litellm
 OPENAI_API_KEY = os.environ['OPENAI_API_KEY']
-if 'BASE_URL' in os.environ:
-    litellm.base_url = os.environ['BASE_URL']
+BASE_URL = os.environ.get('BASE_URL')
+if BASE_URL:
+    litellm.base_url = BASE_URL
 
 def getFilesFromType(sourceDir, filetype):
     files = []
