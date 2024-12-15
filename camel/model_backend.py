@@ -137,9 +137,11 @@ class OpenAIModel(ModelBackend):
                 if 'proxies' in self.model_config_dict:
                     del self.model_config_dict['proxies']
             print(f"Using model string: {model_name} for litellm")
+            print(f"kwargs: {kwargs}")
             response = litellm.completion(*args, **kwargs,
                                                     model="deepseek/deepseek-chat",
                                                     http_client=None,
+                                                    proxies={},
                                                     **self.model_config_dict)
 
             cost = prompt_cost(
