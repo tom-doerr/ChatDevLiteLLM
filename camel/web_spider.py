@@ -1,23 +1,15 @@
 import requests
 from bs4 import BeautifulSoup
-import openai
-from openai import OpenAI
-import wikipediaapi
 import os
 import time
+import wikipediaapi
+import litellm
 
 self_api_key = os.environ.get('OPENAI_API_KEY')
 BASE_URL = os.environ.get('BASE_URL')
 
 if BASE_URL:
-    client = openai.OpenAI(
-        api_key=self_api_key,
-        base_url=BASE_URL,
-    )
-else:
-    client = openai.OpenAI(
-        api_key=self_api_key
-    )
+    litellm.base_url = BASE_URL
 
 def get_baidu_baike_content(keyword):
     # design api by the baidubaike
@@ -57,8 +49,7 @@ def modal_trans(task_dsp):
         task_in ="'" + task_dsp + \
                "'Just give me the most important keyword about this sentence without explaining it and your answer should be only one keyword."
         messages = [{"role": "user", "content": task_in}]
-        response = client.chat.completions.create(messages=messages,
-        model="gpt-3.5-turbo-16k",
+        response = litellm.completion(model="gpt-3.5-turbo-16k", messages=messages,
         temperature=0.2,
         top_p=1.0,
         n=1,
@@ -72,8 +63,7 @@ def modal_trans(task_dsp):
         task_in = "'" + spider_content + \
                "',Summarize this paragraph and return the key information."
         messages = [{"role": "user", "content": task_in}]
-        response = client.chat.completions.create(messages=messages,
-        model="gpt-3.5-turbo-16k",
+        response = litellm.completion(model="gpt-3.5-turbo-16k", messages=messages,
         temperature=0.2,
         top_p=1.0,
         n=1,

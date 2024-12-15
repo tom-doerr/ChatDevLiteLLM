@@ -4,8 +4,6 @@ import yaml
 import time
 import logging
 from easydict import EasyDict
-import openai
-from openai import OpenAI
 import numpy as np
 import os
 from abc import ABC, abstractmethod
@@ -16,11 +14,10 @@ from tenacity import (
     stop_after_attempt,
     wait_exponential
 )
+import litellm
 OPENAI_API_KEY = os.environ['OPENAI_API_KEY']
 if 'BASE_URL' in os.environ:
-    BASE_URL = os.environ['BASE_URL']
-else:
-    BASE_URL = None
+    litellm.base_url = os.environ['BASE_URL']
 
 def getFilesFromType(sourceDir, filetype):
     files = []
@@ -112,18 +109,7 @@ class OpenAIModel(ModelBackend):
 
     @retry(wait=wait_exponential(min=5, max=60), stop=stop_after_attempt(5))
     def run(self, messages) :
-        if BASE_URL:
-            client = openai.OpenAI(
-                api_key=OPENAI_API_KEY,
-                base_url=BASE_URL,
-            )
-        else:
-            client = openai.OpenAI(
-                api_key=OPENAI_API_KEY
-            )
-        current_retry = 0
-        max_retry = 5
-
+        
         string = "\n".join([message["content"] for message in messages])
         encoding = tiktoken.encoding_for_model(self.model_type)
         num_prompt_tokens = len(encoding.encode(string))
@@ -141,8 +127,8 @@ class OpenAIModel(ModelBackend):
             "gpt-4o": 4096, #100000
             "gpt-4o-mini": 16384, #100000
         }
-        response = client.chat.completions.create(messages = messages,
-        model = "gpt-3.5-turbo-16k",
+        response = litellm.completion(messages = messages,
+        model = self.model_type,
         temperature = 0.2,
         top_p = 1.0,
         n = 1,
