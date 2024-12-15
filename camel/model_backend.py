@@ -129,9 +129,10 @@ class OpenAIModel(ModelBackend):
 
             # response = client.chat.completions.create(*args, **kwargs, model=self.model_type.value,
                                                       # **self.model_config_dict)
-            print(f"Using model string: {self.model_type} for litellm")
+            model_name = self.model_type if isinstance(self.model_type, str) else self.model_type.value
+            print(f"Using model string: {model_name} for litellm")
             response = litellm.completion(*args, **kwargs,
-                                                    model=self.model_type,
+                                                    model=model_name,
                                                     **self.model_config_dict)
 
             cost = prompt_cost(
