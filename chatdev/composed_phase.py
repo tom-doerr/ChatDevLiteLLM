@@ -5,7 +5,7 @@ from collections import defaultdict
 
 from camel.typing import ModelType
 from chatdev.chat_env import ChatEnv
-from chatdev.utils import log_and_print_online
+from chatdev.utils import log_visualize
 
 
 def check_bool(s):
@@ -42,6 +42,7 @@ class ComposedPhase(ABC):
         self.config_role = config_role
 
         self.phase_env = dict()
+        self.phase_env["cycle_num"] = cycle_num
 
         # init chat turn
         self.chat_turn_limit_default = 10
@@ -134,13 +135,14 @@ class ComposedPhase(ABC):
 
         """
         self.update_phase_env(chat_env)
-        for cycle_index in range(self.cycle_num):
+        for cycle_index in range(1, self.cycle_num + 1):
             for phase_item in self.composition:
                 assert phase_item["phaseType"] == "SimplePhase"  # right now we do not support nested composition
                 phase = phase_item['phase']
                 max_turn_step = phase_item['max_turn_step']
                 need_reflect = check_bool(phase_item['need_reflect'])
-                log_and_print_online(
+                self.phase_env["cycle_index"] = cycle_index
+                log_visualize(
                     f"**[Execute Detail]**\n\nexecute SimplePhase:[{phase}] in ComposedPhase:[{self.phase_name}], cycle {cycle_index}")
                 if phase in self.phases:
                     self.phases[phase].phase_env = self.phase_env
@@ -182,11 +184,11 @@ class CodeCompleteAll(ComposedPhase):
         pyfiles = [filename for filename in os.listdir(chat_env.env_dict['directory']) if filename.endswith(".py")]
         num_tried = defaultdict(int)
         num_tried.update({filename: 0 for filename in pyfiles})
-        self.phase_env = {
+        self.phase_env.update({
             "max_num_implement": 5,
             "pyfiles": pyfiles,
             "num_tried": num_tried
-        }
+        })
 
     def update_chat_env(self, chat_env):
         return chat_env
@@ -203,7 +205,7 @@ class CodeReview(ComposedPhase):
         super().__init__(**kwargs)
 
     def update_phase_env(self, chat_env):
-        self.phase_env = {"modification_conclusion": ""}
+        self.phase_env.update({"modification_conclusion": ""})
 
     def update_chat_env(self, chat_env):
         return chat_env
@@ -215,19 +217,36 @@ class CodeReview(ComposedPhase):
             return False
 
 
+class HumanAgentInteraction(ComposedPhase):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    def update_phase_env(self, chat_env):
+        self.phase_env.update({"modification_conclusion": "", "comments": ""})
+
+    def update_chat_env(self, chat_env):
+        return chat_env
+
+    def break_cycle(self, phase_env) -> bool:
+        if "<INFO> Finished".lower() in phase_env['modification_conclusion'].lower() or phase_env["comments"].lower() == "exit":
+            return True
+        else:
+            return False
+
+
 class Test(ComposedPhase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
     def update_phase_env(self, chat_env):
-        self.phase_env = dict()
+        pass
 
     def update_chat_env(self, chat_env):
         return chat_env
 
     def break_cycle(self, phase_env) -> bool:
         if not phase_env['exist_bugs_flag']:
-            log_and_print_online(f"**[Test Info]**\n\nAI User (Software Test Engineer):\nTest Pass!\n")
+            log_visualize(f"**[Test Info]**\n\nAI User (Software Test Engineer):\nTest Pass!\n")
             return True
         else:
             return False

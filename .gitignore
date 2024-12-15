@@ -3,5 +3,13 @@
 .idea
 .vscode
 
+<<<<<<< HEAD
 .aider*
 .env
+=======
+# env
+.env/
+.venv/
+env/
+venv/
+>>>>>>> f934e2e5e7a95c7f652e919db17a98a6e641cd74
