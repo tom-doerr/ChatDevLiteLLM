@@ -71,42 +71,40 @@ class OpenAIModel(ModelBackend):
         gap_between_send_receive = 15 * len(kwargs["messages"])
         num_prompt_tokens += gap_between_send_receive
 
-<<<<<<< HEAD
-        num_max_token_map = {
-            "gpt-3.5-turbo": 4096,
-            "gpt-3.5-turbo-16k": 16384,
-            "gpt-3.5-turbo-0613": 4096,
-            "gpt-3.5-turbo-16k-0613": 16384,
-            "gpt-4": 8192,
-            "gpt-4-0613": 8192,
-            "gpt-4-32k": 32768,
-        }
-        num_max_token = num_max_token_map[self.model_type.value]
-        num_max_completion_tokens = num_max_token - num_prompt_tokens
-        self.model_config_dict['max_tokens'] = num_max_completion_tokens
-        response = litellm.completion(*args, **kwargs,
-                                                model=self.model_type.value,
-                                                **self.model_config_dict)
+# <<<<<<< HEAD
+        # num_max_token_map = {
+            # "gpt-3.5-turbo": 4096,
+            # "gpt-3.5-turbo-16k": 16384,
+            # "gpt-3.5-turbo-0613": 4096,
+            # "gpt-3.5-turbo-16k-0613": 16384,
+            # "gpt-4": 8192,
+            # "gpt-4-0613": 8192,
+            # "gpt-4-32k": 32768,
+        # }
+        # num_max_token = num_max_token_map[self.model_type.value]
+        # num_max_completion_tokens = num_max_token - num_prompt_tokens
+        # self.model_config_dict['max_tokens'] = num_max_completion_tokens
 
-        log_and_print_online(
-            "**[OpenAI_Usage_Info Receive]**\nprompt_tokens: {}\ncompletion_tokens: {}\ntotal_tokens: {}\n".format(
-                response["usage"]["prompt_tokens"], response["usage"]["completion_tokens"],
-                response["usage"]["total_tokens"]))
-        if not isinstance(response, Dict):
-            raise RuntimeError("Unexpected return from OpenAI API")
-        return response
-=======
-        if openai_new_api:
+        # log_and_print_online(
+            # "**[OpenAI_Usage_Info Receive]**\nprompt_tokens: {}\ncompletion_tokens: {}\ntotal_tokens: {}\n".format(
+                # response["usage"]["prompt_tokens"], response["usage"]["completion_tokens"],
+                # response["usage"]["total_tokens"]))
+        # if not isinstance(response, Dict):
+            # raise RuntimeError("Unexpected return from OpenAI API")
+        # return response
+# =======
+        # if openai_new_api:
+        if True:
             # Experimental, add base_url
-            if BASE_URL:
-                client = openai.OpenAI(
-                    api_key=OPENAI_API_KEY,
-                    base_url=BASE_URL,
-                )
-            else:
-                client = openai.OpenAI(
-                    api_key=OPENAI_API_KEY
-                )
+            # if BASE_URL:
+                # client = openai.OpenAI(
+                    # api_key=OPENAI_API_KEY,
+                    # base_url=BASE_URL,
+                # )
+            # else:
+                # client = openai.OpenAI(
+                    # api_key=OPENAI_API_KEY
+                # )
 
             num_max_token_map = {
                 "gpt-3.5-turbo": 4096,
@@ -124,8 +122,11 @@ class OpenAIModel(ModelBackend):
             num_max_completion_tokens = num_max_token - num_prompt_tokens
             self.model_config_dict['max_tokens'] = num_max_completion_tokens
 
-            response = client.chat.completions.create(*args, **kwargs, model=self.model_type.value,
-                                                      **self.model_config_dict)
+            # response = client.chat.completions.create(*args, **kwargs, model=self.model_type.value,
+                                                      # **self.model_config_dict)
+            response = litellm.completion(*args, **kwargs,
+                                                    model=self.model_type.value,
+                                                    **self.model_config_dict)
 
             cost = prompt_cost(
                 self.model_type.value,
@@ -173,7 +174,6 @@ class OpenAIModel(ModelBackend):
             if not isinstance(response, Dict):
                 raise RuntimeError("Unexpected return from OpenAI API")
             return response
->>>>>>> f934e2e5e7a95c7f652e919db17a98a6e641cd74
 
 
 class StubModel(ModelBackend):
