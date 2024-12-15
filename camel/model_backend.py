@@ -131,7 +131,7 @@ class OpenAIModel(ModelBackend):
                                                       # **self.model_config_dict)
             model_name = self.model_type if isinstance(self.model_type, str) else self.model_type.value
             if self.model_type == ModelType.DEEPSEEK:
-                model_name = "deepseek/deepseek"
+                model_name = "deepseek/deepseek-chat"
             print(f"Using model string: {model_name} for litellm")
             response = litellm.completion(*args, **kwargs,
                                                     model=model_name,

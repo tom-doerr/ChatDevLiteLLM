@@ -100,6 +100,7 @@ args2type = {'GPT_3_5_TURBO': ModelType.GPT_3_5_TURBO,
             'DEEPSEEK': ModelType.DEEPSEEK,
             'deepseek/deepseek': ModelType.DEEPSEEK,
             'deepseek': ModelType.DEEPSEEK,
+            'deepseek/deepseek-chat': ModelType.DEEPSEEK,
              }
 if openai_new_api:
     args2type['GPT_3_5_TURBO'] = ModelType.GPT_3_5_TURBO_NEW
