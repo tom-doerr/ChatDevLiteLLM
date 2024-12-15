@@ -215,6 +215,7 @@ class ModelFactory:
             ModelType.GPT_4_TURBO_V,
             ModelType.GPT_4O,
             ModelType.GPT_4O_MINI,
+            ModelType.DEEPSEEK,
             None
         }:
             model_class = OpenAIModel
