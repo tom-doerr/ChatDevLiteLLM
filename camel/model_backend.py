@@ -139,6 +139,7 @@ class OpenAIModel(ModelBackend):
             print(f"Using model string: {model_name} for litellm")
             response = litellm.completion(*args, **kwargs,
                                                     model="deepseek/deepseek-chat",
+                                                    http_client=None,
                                                     **self.model_config_dict)
 
             cost = prompt_cost(
